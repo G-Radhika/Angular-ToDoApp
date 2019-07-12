@@ -11,10 +11,10 @@ import { ActivatedRoute } from '@angular/router';
 export class DetailsComponent {
   private sub: any;
   id: string;
-  detailsForm = new FormGroup({
-    textDetails: new FormControl(''),
-    startDate: new FormControl(''),
-    endDate: new FormControl('')
+  formDetails = new FormGroup({
+    formTextDetails: new FormControl(''),
+    formStartDate: new FormControl(''),
+    formEndDate: new FormControl('')
   });
   message: string;
 
@@ -30,11 +30,14 @@ export class DetailsComponent {
       // tslint:disable-next-line: no-string-literal
       this.id = params['id']; // (+) converts string 'id' to a number
     });
+
   }
 
-  updateDetails() {
-    this.detailsForm.setValue(this.detailsForm.value);
+  onFormSubmit() {
+    const formDetailsValue = this.formDetails.value;
+    console.log(formDetailsValue);
   }
+
 
   toTodo(task: any) {
     console.log(task);

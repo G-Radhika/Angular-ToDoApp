@@ -1,14 +1,14 @@
 <h2>Details: </h2>
-<form [formGroup]="detailsForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="formDetails" (ngSubmit)="onFormSubmit()">
   <label>
     Details:
-    <textarea type="text" rows="3" cols="30"></textarea>
-  </label> 
+    <textarea type="text" rows="3" cols="30" formControlName="formTextDetails"></textarea>
+  </label>
   <br>
   <label>
     Start Date:
     <mat-form-field>
-      <input matInput [matDatepicker]="startDate" placeholder="Choose a date">
+      <input matInput [matDatepicker]="startDate" formControlName="formStartDate" placeholder="Choose a date">
       <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
       <mat-datepicker #startDate></mat-datepicker>
     </mat-form-field>
@@ -17,7 +17,7 @@
   <label>
     End Date:
     <mat-form-field>
-      <input matInput [matDatepicker]="endDate" placeholder="Choose a date">
+      <input matInput [matDatepicker]="endDate" formControlName="formEndDate" placeholder="Choose a date">
       <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
       <mat-datepicker #endDate></mat-datepicker>
     </mat-form-field>
@@ -29,7 +29,7 @@
     EndDate: {{endDate.value}}
   </p> -->
 
-  <button type="button" (click)="updateDetails()">Done</button>
+  <button type="submit">Save</button>
   <button type="button" (click)="toTodo()">Back</button>
 
 </form>
