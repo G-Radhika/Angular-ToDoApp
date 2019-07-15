@@ -36,6 +36,12 @@ export class DetailsComponent {
   onFormSubmit() {
     const formDetailsValue = this.formDetails.value;
     console.log(formDetailsValue);
+    localStorage.setItem('dataSource1', formDetailsValue.formTextDetails);
+    localStorage.setItem('dataSource2', formDetailsValue.formStartDate);
+    localStorage.setItem('dataSource3', formDetailsValue.formEndDate);
+    console.log(localStorage.getItem('dataSource1'));
+    console.log(localStorage.getItem('dataSource2'));
+    console.log(localStorage.getItem('dataSource3'));
   }
 
 

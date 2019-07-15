@@ -14,12 +14,14 @@ export class TasklistComponent implements OnInit {
     this.msgService.currentMsg.subscribe((task) => {
       if (task && task !== '') {
         this.taskList.push(task);
-        console.log('tasklist onInit');
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < this.taskList.length; i++){
+          // localStorage.setItem('dataSource', this.taskList);
+          console.log(this.taskList[i]);
+        }
+
       }
     });
   }
-  /* onSelect(task) {
-    console.log('task: ', task);
-    this.router.navigate(['/details', task]);
-  } */
+
 }
