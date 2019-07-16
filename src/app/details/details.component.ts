@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-details',
@@ -20,7 +21,8 @@ export class DetailsComponent {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private dataService: DataService ) {
   }
 
   // tslint:disable-next-line: use-life-cycle-interface
@@ -30,18 +32,26 @@ export class DetailsComponent {
       // tslint:disable-next-line: no-string-literal
       this.id = params['id']; // (+) converts string 'id' to a number
     });
-
   }
 
   onFormSubmit() {
     const formDetailsValue = this.formDetails.value;
     console.log(formDetailsValue);
-    localStorage.setItem('dataSource1', formDetailsValue.formTextDetails);
-    localStorage.setItem('dataSource2', formDetailsValue.formStartDate);
-    localStorage.setItem('dataSource3', formDetailsValue.formEndDate);
-    console.log(localStorage.getItem('dataSource1'));
-    console.log(localStorage.getItem('dataSource2'));
-    console.log(localStorage.getItem('dataSource3'));
+
+    this.dataService.setData('dataSource', {
+      taskDetails: formDetailsValue.formTextDetails,
+      taskStartDate: formDetailsValue.formStartDate,
+      taskEndDate: formDetailsValue.formEndDate
+    }).subscribe( () => {
+      console.log('done saving');
+    });
+    this.dataService.getData('dataSource').subscribe( (data) => {
+      console.log(data.taskDetails);
+      console.log(data.taskStartDate);
+      console.log(data.taskEndDate);
+    });
+
+
   }
 
 

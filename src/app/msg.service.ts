@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
+// used to communicate between components.
 @Injectable({
   providedIn: 'root'
 })
