@@ -26,6 +26,7 @@ export class DetailsComponent {
   }
 
   // tslint:disable-next-line: use-life-cycle-interface
+  // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit() {
     console.log('this is detail oninit');
     this.sub = this.route.params.subscribe(params => {

@@ -15,7 +15,7 @@ export class TasklistComponent implements OnInit {
       if (task && task !== '') {
         this.taskList.push(task);
         // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < this.taskList.length; i++){
+        for (let i = 0; i < this.taskList.length; i++) {
           // localStorage.setItem('dataSource', this.taskList);
           console.log(this.taskList[i]);
         }

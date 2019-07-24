@@ -11,11 +11,13 @@ import { MsgService } from '../msg.service';
 export class TaskInputComponent implements OnInit {
   task = new FormControl('');
   message: string;
+  form: any;
   constructor(private msgService: MsgService) {
   }
   ngOnInit() { }
 
   updateTask() {
     this.msgService.changeMessage(this.task.value);
+    this.form.reset();
   }
 }
