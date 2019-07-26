@@ -9,7 +9,7 @@ export const environment = {
     authDomain: 'angulartodo-3e956.firebaseapp.com',
     databaseURL: 'https://angulartodo-3e956.firebaseio.com',
     projectId: 'angulartodo-3e956',
-    storageBucket: '',
+    storageBucket: 'angulartodo-3e956.appspot.com',
     messagingSenderId: '756441915082',
     appId: ''
   }

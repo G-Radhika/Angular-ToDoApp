@@ -6,28 +6,24 @@ import { Observable } from 'rxjs';
 })
 export class DataService {
 
-constructor() { }
+  constructor() { }
 
-/*
-- Callbacks
-- Promises
-- Observables
-*/
+  setData(key: string, value: any): Observable<any> {
+    // tslint:disable-next-line: deprecation
+    return Observable.create((observer) => {
+      localStorage.setItem(key, JSON.stringify(value));
+      observer.complete();
+    });
+  }
 
-setData(key: string, value: any): Observable<any> {
-  return Observable.create((observer) => {
-    localStorage.setItem(key, JSON.stringify(value));
-    observer.complete();
-  });
-}
+  getData(key: string): Observable<any> {
+    // tslint:disable-next-line: deprecation
+    return Observable.create((observer) => {
+      const data = localStorage.getItem(key);
+      observer.next(JSON.parse(data));
+      observer.complete();
+    });
 
-getData(key: string): Observable<any> {
-  return Observable.create((observer) => {
-    const data =  localStorage.getItem(key);
-    observer.next(JSON.parse(data));
-    observer.complete();
-  });
-
-}
+  }
 
 }

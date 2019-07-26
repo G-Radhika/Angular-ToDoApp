@@ -1,6 +1,6 @@
 <div>
   <ul>
-    <li *ngFor="let task of taskList">
+    <li class="text" *ngFor="let task of taskList">
       <a [routerLink]="['/details', task]">{{task}}</a>
     </li>
   </ul>

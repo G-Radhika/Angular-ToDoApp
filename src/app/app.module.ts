@@ -13,14 +13,16 @@ import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { environment } from '../environments/environment';
 
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/todo', pathMatch: 'full' },
   { path: 'todo', component: TodoComponent },
   { path: 'details/:id', component: DetailsComponent },
-  // { path: 'details/:id', component: DetailsComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 const route: Route = {};
@@ -43,11 +45,12 @@ const route: Route = {};
     MatDatepickerModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
     MatInputModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule
   ],
-  providers: [],
+  providers: [AngularFirestore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
