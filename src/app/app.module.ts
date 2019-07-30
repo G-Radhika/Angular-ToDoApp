@@ -18,6 +18,7 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
+import { MsgBannerComponent } from './msg-banner/msg-banner.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/todo', pathMatch: 'full' },
@@ -33,7 +34,8 @@ const route: Route = {};
     TasklistComponent,
     DetailsComponent,
     PageNotFoundComponent,
-    TodoComponent
+    TodoComponent,
+    MsgBannerComponent
   ],
   imports: [
     RouterModule.forRoot(

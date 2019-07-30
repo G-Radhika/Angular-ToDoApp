@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../data.service';
-
-
+import { AngularFirestore } from '@angular/fire/firestore';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -13,6 +11,7 @@ import { DataService } from '../data.service';
 export class DetailsComponent {
   private sub: any;
   id: string;
+  docRef: any;
   formDetails = new FormGroup({
     formTextDetails: new FormControl(''),
     formStartDate: new FormControl(''),
@@ -23,8 +22,9 @@ export class DetailsComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private dataService: DataService
-    ) {
+    private dataService: DataService,
+    private angularFireStore: AngularFirestore
+  ) {
   }
 
   // tslint:disable-next-line: use-lifecycle-interface
@@ -33,30 +33,37 @@ export class DetailsComponent {
     this.sub = this.route.params.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       this.id = params['id']; // (+) converts string 'id' to a number
+      this.docRef = this.angularFireStore.collection('taskList').doc(this.id);
+    });
+  }
+  onFormSubmit() {
+    const formDetailsValue = this.formDetails.value;
+    console.log(formDetailsValue);
+    const taskObj = {
+      taskDetails: formDetailsValue.formTextDetails,
+      taskStartDate: formDetailsValue.formStartDate,
+      taskEndDate: formDetailsValue.formEndDate
+    };
+
+    this.docRef.set(taskObj)
+      .then((status) => {
+        console.log('in success');
+      }).catch((error: any) => {
+        console.log(error);
+      });
+
+    this.dataService.setData('dataSource', taskObj).subscribe(() => {
+      console.log('done saving');
+    });
+    this.dataService.getData('dataSource').subscribe((data) => {
+      console.log(data.taskDetails);
+      console.log(data.taskStartDate);
+      console.log(data.taskEndDate);
     });
   }
 
-
-onFormSubmit() {
-  const formDetailsValue = this.formDetails.value;
-  console.log(formDetailsValue);
-
-  this.dataService.setData('dataSource', {
-    taskDetails: formDetailsValue.formTextDetails,
-    taskStartDate: formDetailsValue.formStartDate,
-    taskEndDate: formDetailsValue.formEndDate
-  }).subscribe(() => {
-    console.log('done saving');
-  });
-  this.dataService.getData('dataSource').subscribe((data) => {
-    console.log(data.taskDetails);
-    console.log(data.taskStartDate);
-    console.log(data.taskEndDate);
-  });
-}
-
-backHome(task: any) {
-  console.log(task);
-  this.router.navigate(['/todo']);
-}
+  backHome(task: any) {
+    console.log(task);
+    this.router.navigate(['/todo']);
+  }
 }
