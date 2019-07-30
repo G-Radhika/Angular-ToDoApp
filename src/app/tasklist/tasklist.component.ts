@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 export class TasklistComponent implements OnInit {
   taskList: string[] = [];
   taskListObs: Observable<any[]>;
+  errorMessage: string;
 
   // private taskCollection: AngularFirestoreCollection<Task>;
 
@@ -30,8 +31,7 @@ export class TasklistComponent implements OnInit {
       if (task && task !== '') {
         // check taskList for duplicate entries.
         if (this.taskList.includes(task)) {
-          const msg = 'Duplicate task!';
-          console.log(msg);
+          this.errorMessage = 'Duplicate task!';
           // msgDisplay(msg);
         } else {
           this.taskList.push(task);

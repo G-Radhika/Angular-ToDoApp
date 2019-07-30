@@ -2,47 +2,80 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../data.service';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { TaskDetails } from '../TaskDetails';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent {
-  private sub: any;
   id: string;
   docRef: any;
+  taskDetailsObs: Observable<any[]>;
   formDetails = new FormGroup({
-    formTextDetails: new FormControl(''),
-    formStartDate: new FormControl(''),
-    formEndDate: new FormControl('')
+    formTextDetails: new FormControl(),
+    formStartDate: new FormControl(),
+    formEndDate: new FormControl()
   });
   message: string;
-  // details observable}}} subcribe and print!!!!
+  taskDetails: TaskDetails;
+
+  // details observable}}} subscribe and print!!!!
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private dataService: DataService,
-    private angularFireStore: AngularFirestore
+    private angularFireStore: AngularFirestore // inject AngularFirestore.(Service)
   ) {
+    // from firestore read the document belonging to a perticular task.
+
+  /* this.itemscollection.doc(id).ref.get().then(function (doc) {
+      if (doc.exists) {
+        console.log("Document data:", doc.data());
+      } else {
+        console.log("No such document!");
+      }
+    }).catch(function (error) {
+      console.log("Error getting document:", error);
+    }); */
   }
+
 
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit() {
     console.log('this is detail oninit');
-    this.sub = this.route.params.subscribe(params => {
+    this.route.params.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       this.id = params['id']; // (+) converts string 'id' to a number
-      this.docRef = this.angularFireStore.collection('taskList').doc(this.id);
+      this.docRef = this.angularFireStore.collection('taskList').doc(this.id).ref;
+      this.docRef.get().then((doc) => {
+        if (doc.exists && doc.data() && doc.data().details) {
+          console.log('Document data:', doc.data());
+          const data = doc.data();
+
+
+          this.formDetails.setValue({
+            formTextDetails: data.details,
+            formStartDate: new Date(data.startDate),
+            formEndDate: new Date(data.endDate)
+          });
+        } else {
+          console.log('No such document!');
+        }
+      }).catch((error) =>  {
+        console.log('Error getting document:', error);
+      });
     });
   }
   onFormSubmit() {
     const formDetailsValue = this.formDetails.value;
     console.log(formDetailsValue);
-    const taskObj = {
-      taskDetails: formDetailsValue.formTextDetails,
-      taskStartDate: formDetailsValue.formStartDate,
-      taskEndDate: formDetailsValue.formEndDate
+    const taskObj: TaskDetails = {
+      details: formDetailsValue.formTextDetails,
+      startDate: new Date(formDetailsValue.formStartDate),
+      endDate: new Date(formDetailsValue.formEndDate)
     };
 
     this.docRef.set(taskObj)
