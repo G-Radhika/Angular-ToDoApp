@@ -17,7 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/todo', pathMatch: 'full' },
@@ -48,7 +48,7 @@ const route: Route = {};
     MatInputModule,
     MatNativeDateModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireStorageModule
+    AngularFirestoreModule,
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

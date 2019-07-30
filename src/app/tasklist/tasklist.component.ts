@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MsgService } from '../msg.service';
 import { Router } from '@angular/router';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -12,18 +12,14 @@ import { Observable } from 'rxjs';
 
 export class TasklistComponent implements OnInit {
   taskList: string[] = [];
-
   taskListObs: Observable<any[]>;
   constructor(
     private msgService: MsgService, // service is injected. NOW READ AND WRITE.
     private router: Router,
-    db: AngularFirestore // inject AngularFirestore.(Service)
+    private angularFireStore: AngularFirestore // inject AngularFirestore.(Service)
     ) {
-    this.taskListObs = db.collection('taskList').valueChanges();
+    this.taskListObs = angularFireStore.collection('taskList').snapshotChanges();
   }
-
-
-
   ngOnInit() {
     // tslint:disable-next-line: deprecation
     this.msgService.currentMsg.subscribe((task) => {
@@ -33,5 +29,12 @@ export class TasklistComponent implements OnInit {
         console.log('taskList : ', this.taskList);
       }
     });
+    this.taskListObs.subscribe( (allDocs: any[]) => {
+      allDocs.forEach( (doc: any) => {
+        const taskName = doc.payload.doc.id;
+        this.taskList.push(taskName);
+      });
+    } );
+    // Add document to firestore.
   }
 }

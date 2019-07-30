@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../data.service';
 
+
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -18,14 +19,14 @@ export class DetailsComponent {
     formEndDate: new FormControl('')
   });
   message: string;
-
+  // details observable}}} subcribe and print!!!!
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private dataService: DataService ) {
+    private dataService: DataService
+    ) {
   }
 
-  // tslint:disable-next-line: use-life-cycle-interface
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit() {
     console.log('this is detail oninit');
@@ -35,37 +36,27 @@ export class DetailsComponent {
     });
   }
 
-  onFormSubmit() {
-    const formDetailsValue = this.formDetails.value;
-    console.log(formDetailsValue);
 
-    this.dataService.setData('dataSource', {
-      taskDetails: formDetailsValue.formTextDetails,
-      taskStartDate: formDetailsValue.formStartDate,
-      taskEndDate: formDetailsValue.formEndDate
-    }).subscribe( () => {
-      console.log('done saving');
-    });
-    this.dataService.getData('dataSource').subscribe( (data) => {
-      console.log(data.taskDetails);
-      console.log(data.taskStartDate);
-      console.log(data.taskEndDate);
-    });
+onFormSubmit() {
+  const formDetailsValue = this.formDetails.value;
+  console.log(formDetailsValue);
 
+  this.dataService.setData('dataSource', {
+    taskDetails: formDetailsValue.formTextDetails,
+    taskStartDate: formDetailsValue.formStartDate,
+    taskEndDate: formDetailsValue.formEndDate
+  }).subscribe(() => {
+    console.log('done saving');
+  });
+  this.dataService.getData('dataSource').subscribe((data) => {
+    console.log(data.taskDetails);
+    console.log(data.taskStartDate);
+    console.log(data.taskEndDate);
+  });
+}
 
-  }
-
-
-  toTodo(task: any) {
-    console.log(task);
-    this.router.navigate(['/todo']);
-  }
-
-  startDate() {
-    // this.msgService.changeMessage(this.startDate.value);
-  }
-
-  endDate() {
-    console.log('clicked!');
-  }
+backHome(task: any) {
+  console.log(task);
+  this.router.navigate(['/todo']);
+}
 }
