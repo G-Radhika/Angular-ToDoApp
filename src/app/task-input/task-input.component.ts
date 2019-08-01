@@ -18,6 +18,6 @@ export class TaskInputComponent implements OnInit {
 
   updateTask() {
     this.msgService.changeMessage(this.task.value);
-    // this.form.reset();
+    this.task.reset(); // [formControl] = task;
   }
 }

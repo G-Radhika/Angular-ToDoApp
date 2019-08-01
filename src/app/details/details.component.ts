@@ -28,21 +28,7 @@ export class DetailsComponent {
     private route: ActivatedRoute,
     private dataService: DataService,
     private angularFireStore: AngularFirestore // inject AngularFirestore.(Service)
-  ) {
-    // from firestore read the document belonging to a perticular task.
-
-  /* this.itemscollection.doc(id).ref.get().then(function (doc) {
-      if (doc.exists) {
-        console.log("Document data:", doc.data());
-      } else {
-        console.log("No such document!");
-      }
-    }).catch(function (error) {
-      console.log("Error getting document:", error);
-    }); */
-  }
-
-
+  ) { }
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit() {
     console.log('this is detail oninit');
@@ -54,8 +40,6 @@ export class DetailsComponent {
         if (doc.exists && doc.data() && doc.data().details) {
           console.log('Document data:', doc.data());
           const data = doc.data();
-
-
           this.formDetails.setValue({
             formTextDetails: data.details,
             formStartDate: new Date(data.startDate),

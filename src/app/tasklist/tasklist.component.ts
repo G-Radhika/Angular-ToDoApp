@@ -9,15 +9,11 @@ import { Observable } from 'rxjs';
   templateUrl: './tasklist.component.html',
   styleUrls: ['./tasklist.component.css']
 })
-// export interface Task { name: string; }
 
 export class TasklistComponent implements OnInit {
   taskList: string[] = [];
   taskListObs: Observable<any[]>;
   errorMessage: string;
-
-  // private taskCollection: AngularFirestoreCollection<Task>;
-
   constructor(
     private msgService: MsgService, // service is injected. NOW READ AND WRITE.
     private router: Router,
@@ -32,17 +28,10 @@ export class TasklistComponent implements OnInit {
         // check taskList for duplicate entries.
         if (this.taskList.includes(task)) {
           this.errorMessage = 'Duplicate task!';
-          // msgDisplay(msg);
         } else {
           this.taskList.push(task);
           // Save this data to angularFirebase.
           console.log('taskList : ', this.taskList);
-          // add this task to taskList collection on fireStore.
-          /*
-           addItem(item: Item) {
-            this.itemsCollection.add(item);
-            } */
-          // this.taskCollection.add(this.task);
         }
       }
     });
@@ -50,9 +39,7 @@ export class TasklistComponent implements OnInit {
       allDocs.forEach((doc: any) => {
         const taskName = doc.payload.doc.id;
         this.taskList.push(taskName);
-        // this.angularFireStore.collection('taskList').add(taskName);
       });
     });
-    // Add document to firestore.
   }
 }
